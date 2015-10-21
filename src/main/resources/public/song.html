@@ -1,0 +1,20 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Song</title>
+	<script type="text/javascript" src="/js/SeamlessLoop.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		var loop = new SeamlessLoop();
+		loop.addUri("/mby-freedom_of_choice-short.ogg", 15353, "sound1"); //15354
+		loop.callback(function() {
+			loop.start("sound1");
+			loop.volume(0.1);
+		});
+		
+	</script>
+
+</body>
+</html>

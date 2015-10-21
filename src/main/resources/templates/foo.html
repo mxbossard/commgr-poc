@@ -1,0 +1,86 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" ng-app="commgr">
+<head>
+	<title>Hello AngularJS</title>
+	
+	<!-- Static resources -->
+	<script th:replace="fragments/static::header"></script>
+	
+	<!-- App -->
+	<script src="/app/js/app.js"></script>
+</head>
+
+<body>
+
+	<div class="row">
+
+		<div class="col-md-6" ng-controller="CommunityController as communityCtrl"  ng-init="communityCtrl.updatePage()">
+		
+			<div class="form-inline">
+				<div class="form-group">
+					<label for="pageSize">Page size</label>
+					<input id="pageSize" class="form-control" type="number" name="points" min="5" max="100" step="5" ng-model="communityCtrl.pagination.size" ng-change="communityCtrl.updatePage()" />
+					<select class="form-control" ng-model="communityCtrl.pagination.size" ng-change="communityCtrl.updatePage()">
+						<option ng-repeat="i in tools.range(5, 100, 5)" ng-selected="i == communityCtrl.pagination.size">{{i}}</option>
+					</select>
+					items
+				</div>
+				<div class="form-group">
+					<pagination ng-model="communityCtrl.pagination.selected" total-items="communityCtrl.page.totalElements" max-size="10" items-per-page="communityCtrl.pagination.size" boundary-links="true" ng-change="communityCtrl.updatePage()"></pagination>
+				</div>
+			</div>
+		
+			<fieldset name="communities" ng-repeat="community in communityCtrl.data.communities">
+				<legend>{{community.name}}</legend>
+				<p>
+					<span>{{ $index + communityCtrl.page.number * communityCtrl.page.size }}</span>
+					<a href="{{community._links.self.href}}"><span>self hal link</span></a>
+					<span>({{community.email}})</span>
+				</p>
+				<p>
+					<span>{{community.description}}</span>
+				</p>
+				<p>			
+					<span>{{community.note}}</span>
+				</p>
+				<p>
+					<span>Seasons: </span>
+					<span ng-repeat="season in community.seasons | orderBy: '-name'" th:include="fragments/season::badge(season)"></span>
+				</p>
+			</fieldset>
+		</div>
+
+	  	<div class="col-md-6" ng-controller="AccountController as accountCtrl" ng-init="accountCtrl.updatePage()">
+	  	
+	  		<div class="form-inline">
+				<div class="form-group">
+					<label for="pageSize">Page size</label>
+					<input id="pageSize" class="form-control" type="number" name="points" min="5" max="100" step="5" ng-model="communityCtrl.pagination.size" ng-change="communityCtrl.updatePage()" />
+					<select class="form-control" ng-model="accountCtrl.pagination.size" ng-change="accountCtrl.updatePage()">
+						<option ng-repeat="i in tools.range(5, 100, 5)" ng-selected="i == accountCtrl.pagination.size">{{i}}</option>
+					</select>
+					items
+				</div>
+				<div class="form-group">
+					<pagination ng-model="accountCtrl.pagination.selected" total-items="accountCtrl.page.totalElements" max-size="10" items-per-page="accountCtrl.pagination.size" boundary-links="true" ng-change="accountCtrl.updatePage()"></pagination>
+				</div>
+			</div>
+			
+	  		<div ng-repeat="account in accountCtrl.data.accounts">
+				<p>
+					<span>{{account.username}}</span>
+					<span>({{account.email}})</span>
+				</p>
+				<p>
+					<span>{{account.person.lastName}}</span>
+				</p>
+				<p>			
+					<span>{{account.person.firstName}}</span>
+				</p>
+			</div>
+	  	</div>
+
+	</div>
+	
+</body>
+</html>

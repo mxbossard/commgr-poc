@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Thymeleaf fragments tests</title>
+	
+	<!-- Static resources -->
+	<script th:replace="fragments/static::header"></script>
+	
+</head>
+<body ng-app="testFragments">
+
+	<div ng-controller="SeasonController">
+		
+		<div>
+			fragments/season::icon
+			<div th:include="fragments/season::icon"></div>
+		</div>
+		
+		<div>
+			fragments/season::badge
+			<div th:include="fragments/season::badge(ng_season)"></div>
+		</div>
+
+	</div>
+	
+	<script type="text/javascript">
+		var testFragmentsApp = angular.module('testFragments', ['ui.bootstrap']);
+		testFragmentsApp.controller('SeasonController', ['$scope','$http', function($scope, $http) {
+			$http.get('/seasons/1').success(function(data) {
+				$scope.ng_season = data;
+			});
+		}]);
+	</script>
+	
+</body>
+</html>

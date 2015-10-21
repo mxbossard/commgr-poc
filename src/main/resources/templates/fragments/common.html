@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+	<span th:fragment="bootstrapIcon(iconName)">
+		<span th:class="'glyphicon ' + ${iconName}"></span>
+	</span>
+	
+	<span th:fragment="bootstrapBadge(iconFragment, objectVar, labelVar, enabledVar, urlVar)">
+	<span th:inline="text">
+	
+		<span th:if="${objectVar}">{{_ng_badge_object=[[${objectVar}]];""}}</span>
+		<span th:if="${labelVar}">{{_ng_badge_label=[[${labelVar}]];""}}</span>
+		<span th:if="${enabledVar}">{{_ng_badge_enabled=[[${enabledVar}]];""}}</span>
+		<span th:if="${urlVar}">{{_ng_badge_url=[[${urlVar}]];""}}</span>
+
+		<span ng-if="_ng_badge_object" ng-class="{active: _ng_badge_enabled}" class="obj_season obj_season-thin" >
+	    	<a ng-href="{{_ng_badge_url}}" title="">
+	        	<span class="badge" th:with="iconFragmentPath = ${#strings.arraySplit(iconFragment, '::')}">
+	            	<span th:include="${iconFragmentPath[0]} :: ${iconFragmentPath[1]}"></span>
+	            	<span>{{_ng_badge_label}}</span>
+	        	</span>
+	    	</a>
+		</span>
+		
+		<span ng-if="! _ng_badge_object" class="angularThymeleafIntegarationError alert-danger">
+			Undefined [[${objectVar}]] object in scope !
+		</span>
+		
+	</span>
+	</span>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+	<span th:fragment="icon">
+		<span th:include="fragments/common::bootstrapIcon('glyphicon-star')"></span>
+	</span>
+		
+	<span th:fragment="badge(seasonVar)">
+		<span th:include="fragments/common::bootstrapBadge('fragments/season::icon', ${seasonVar}, ${seasonVar} + '.name', ${seasonVar} + '.active', null)"></span>
+	</span>
+	
+	<span th:fragment="icon0">
+		<span class="glyphicon glyphicon-star"></span>
+	</span>
+	
+	<span th:fragment="badge0(seasonVar)">
+	<span th:inline="text">
+		{{_ng_season=[[${seasonVar}]];""}}
+		<span ng-if="_ng_season" ng-class="{active: _ng_season.active}" class="obj_season obj_season-thin" >
+	    	<a href="#" title="">
+	        	<span class="badge">
+	            	<span th:include="fragments/season::icon"></span>
+	            	<span>{{_ng_season.name}}</span>
+	        	</span>
+	    	</a>
+		</span>
+		<span ng-if="!_ng_season" class="angularThymeleafIntegarationError alert-danger">
+			Undefined [[${seasonVar}]] object !
+		</span>
+	</span>
+	</span>
+
+</body>
+</html>
