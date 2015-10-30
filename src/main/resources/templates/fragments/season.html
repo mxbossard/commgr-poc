@@ -1,16 +1,121 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 </head>
 <body>
 
-	<span th:fragment="icon">
-		<span th:include="fragments/common::bootstrapIcon('glyphicon-star')"></span>
-	</span>
+	<th:block th:fragment="icon">
+		<th:block th:replace="fragments/common :: bootstrapIcon( 'glyphicon-star' )"></th:block>
+	</th:block>
+	
+	<th:block layout:fragment="icon2">
+		<span class="glyphicon glyphicon-star"></span>
+	</th:block>
 		
-	<span th:fragment="badge(seasonVar)">
-		<span th:include="fragments/common::bootstrapBadge('fragments/season::icon', ${seasonVar}, ${seasonVar} + '.name', ${seasonVar} + '.active', null)"></span>
-	</span>
+	<th:block th:fragment="badge( seasonVar )">
+		<th:block th:replace="fragments/common :: bootstrapBadge( 'fragments/season :: icon' , ${seasonVar} , ${seasonVar} + '.name' , ${seasonVar} + '.active' , null )"></th:block>
+	</th:block>
+	
+	<th:block layout:fragment="title( seasonVar )">
+		<th:block layout:replace="fragments/season :: icon2"></th:block>
+		<span th:inline="text">
+			{{ [[${seasonVar}]]._embedded.community.name }} - {{ [[${seasonVar}]].name }}
+		</span>
+	</th:block>
+
+	<th:block layout:fragment="defaultPanel( seasonVar , panelClasses )">
+	
+		<th:block th:inline="text">
+			<span th:if="${seasonVar}">
+				{{ _ng_season=[[${seasonVar}]];"" }}
+				{{ _ng_community=_ng_season._embedded.community;"" }}
+			</span>
+		</th:block>
+		
+		<th:block layout:replace="fragments/common :: bootstrapPanel( ${seasonVar} , 'season' , 'fragments/season' , ${panelClasses} )">
+
+			<th:block layout:fragment="top" th:inline="text">
+
+			</th:block>
+			
+			<th:block layout:fragment="content" th:inline="text">
+			    <p>
+			        {{ _ng_community.description }}
+			    </p>
+			
+			    <p>
+			        {{ _ng_season.note }}
+			    </p>
+			</th:block>
+			
+			<th:block layout:fragment="infos">
+
+			</th:block>
+			
+			<th:block layout:fragment="actions" th:inline="text">
+
+			    {{ _ng_community.email }}
+			        <!-- /* {{ include('MbyCommunityBundle:Action:email.html.twig', {'email' : community.email})  }} */ -->
+
+			   <span ng-show="_ng_season.active">Season active !</span>
+			        <!-- /* {{ include('MbyCommunityBundle:Action:apply.html.twig', {'seasonId' : season.id})  }} */ -->
+
+			    <!-- /* {{ include('MbyCommunityBundle:Action:follow.html.twig', {'communityId' : community.id})  }} */ -->
+
+			</th:block>
+			
+			<th:block layout:fragment="bottom" th:inline="text">
+				
+			</th:block>
+			
+			<th:block layout:fragment="footer" th:inline="text">
+				<span>
+					From: {{[[${seasonVar}]].validFrom}} - To: {{[[${seasonVar}]].validFrom}}
+				</span>
+				<!-- /*
+			    {{ 'from' | trans({}, 'MbyCommunityBundle') | capitalize }}: {{ season.fromDate | localizeddate('medium', 'none', app.request.locale) }}
+			
+			    {% if season.toDate %}
+			        -
+			        {{ 'to' | trans({}, 'MbyCommunityBundle') | capitalize }}: {{ season.toDate | localizeddate('medium', 'none', app.request.locale) }}
+			    {% endif %}
+				*/ -->
+			</th:block>
+
+		</th:block>
+	</th:block>	
+		
+	<th:block layout:fragment="panel( seasonVar , panelClasses )">		
+		<th:block layout:replace="fragments/common :: bootstrapPanel( ${seasonVar} , 'season' , 'fragments/season' , ${panelClasses} )">
+
+			<th:block layout:fragment="top" th:inline="text">
+
+			</th:block>
+			
+			<th:block layout:fragment="content" th:inline="text">
+
+			</th:block>
+			
+			<th:block layout:fragment="infos" th:inline="text">
+
+			</th:block>
+			
+			<th:block layout:fragment="actions" th:inline="text">
+
+			</th:block>
+			
+			<th:block layout:fragment="bottom" th:inline="text">
+				
+			</th:block>
+			
+			<th:block layout:fragment="footer" th:inline="text">
+
+			</th:block>
+
+		</th:block>
+	</th:block>
+	
+	<!-- ########## Tests ########## -->
 	
 	<span th:fragment="icon0">
 		<span class="glyphicon glyphicon-star"></span>

@@ -15,7 +15,7 @@ import fr.mby.commgr.domain.Account;
 import fr.mby.commgr.repositories.AccountRepository;
 
 @Configuration
-class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+class GlobalAuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
 	@Autowired
 	AccountRepository accountRepository;

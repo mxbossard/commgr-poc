@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 	<title>Thymeleaf fragments tests</title>
 	
@@ -9,18 +9,52 @@
 </head>
 <body ng-app="testFragments">
 
-	<div ng-controller="SeasonController">
-		
-		<div>
-			fragments/season::icon
-			<div th:include="fragments/season::icon"></div>
-		</div>
-		
-		<div>
-			fragments/season::badge
-			<div th:include="fragments/season::badge(ng_season)"></div>
-		</div>
+	<div class="row">
+		<div class="col-md-4" ng-controller="SeasonController">
+			
+			<div>
+				fragments/season::icon
+				<div th:include="fragments/season :: icon"></div>
+			</div>
+			
+			<div>
+				fragments/season::badge()
+				<div th:include="fragments/season :: badge( ng_season )"></div>
+			</div>
+			
+			<div>
+				fragments/season::defaultPanel()
+				<th:block layout:include="fragments/season :: defaultPanel( ng_season , 'panel-success' )"></th:block>
+			</div>
+			
+			<div>
+				fragments/season::panel()
+				<th:block layout:include="fragments/season :: panel( ng_season , 'panel-success' )"></th:block>
+			</div>
 
+			<div>
+				fragments/season::panel() Test override
+				<th:block layout:include="fragments/season :: panel( ng_season , 'panel-success' )">
+					<th:block layout:fragment="heading">
+						HEADING
+					</th:block>
+					
+					<th:block layout:fragment="title">
+						TITLE
+					</th:block>
+					
+					<th:block layout:fragment="body">
+						BODY
+					</th:block>
+					
+					<th:block layout:fragment="footer">
+						FOOTER
+					</th:block>
+					
+				</th:block>
+			</div>
+			
+		</div>
 	</div>
 	
 	<script type="text/javascript">

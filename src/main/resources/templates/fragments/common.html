@@ -1,25 +1,25 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 </head>
 <body>
 
-	<span th:fragment="bootstrapIcon(iconName)">
+	<th:block th:fragment="bootstrapIcon( iconName )">
 		<span th:class="'glyphicon ' + ${iconName}"></span>
-	</span>
+	</th:block>
 	
-	<span th:fragment="bootstrapBadge(iconFragment, objectVar, labelVar, enabledVar, urlVar)">
-	<span th:inline="text">
+	<th:block th:fragment="bootstrapBadge( iconFragment , objectVar , labelVar , enabledVar , urlVar )">
+	<th:block th:inline="text">
 	
-		<span th:if="${objectVar}">{{_ng_badge_object=[[${objectVar}]];""}}</span>
-		<span th:if="${labelVar}">{{_ng_badge_label=[[${labelVar}]];""}}</span>
-		<span th:if="${enabledVar}">{{_ng_badge_enabled=[[${enabledVar}]];""}}</span>
-		<span th:if="${urlVar}">{{_ng_badge_url=[[${urlVar}]];""}}</span>
+		<span th:if="${objectVar}">{{ _ng_badge_object=[[${objectVar}]];"" }}</span>
+		<span th:if="${labelVar}">{{ _ng_badge_label=[[${labelVar}]];"" }}</span>
+		<span th:if="${enabledVar}">{{ _ng_badge_enabled=[[${enabledVar}]];"" }}</span>
+		<span th:if="${urlVar}">{{ _ng_badge_url=[[${urlVar}]];"" }}</span>
 
 		<span ng-if="_ng_badge_object" ng-class="{active: _ng_badge_enabled}" class="obj_season obj_season-thin" >
 	    	<a ng-href="{{_ng_badge_url}}" title="">
 	        	<span class="badge" th:with="iconFragmentPath = ${#strings.arraySplit(iconFragment, '::')}">
-	            	<span th:include="${iconFragmentPath[0]} :: ${iconFragmentPath[1]}"></span>
+	            	<span th:include="${#strings.trim(iconFragmentPath[0])} :: ${#strings.trim(iconFragmentPath[1])}"></span>
 	            	<span>{{_ng_badge_label}}</span>
 	        	</span>
 	    	</a>
@@ -29,8 +29,58 @@
 			Undefined [[${objectVar}]] object in scope !
 		</span>
 		
-	</span>
-	</span>
+	</th:block>
+	</th:block>
+	
+	<th:block layout:fragment="bootstrapPanel( objectVar , objClass , panelFragment , panelClasses )">
+	
+	    <div th:class="'panel panel-default ' + ${objClass}" th:classappend="${panelClasses}?: ''">
+	
+	        <div class="panel-heading">
+			<th:block layout:fragment="heading">
+
+                <h2 class="panel-title">
+                <th:block layout:fragment="title">
+                	<th:block layout:include="${panelFragment} :: title( ${objectVar} )"></th:block>
+                </th:block>
+                </h2>
+	                
+			</th:block>
+	        </div>
+	
+	        <div class="panel-body">
+	        <th:block layout:fragment="body">
+				
+				<div class="panel-top">
+				    <th:block layout:fragment="top"></th:block>
+				</div>
+				
+				<div class="panel-content">
+					<th:block layout:fragment="content"></th:block>
+				</div>
+				
+				<div class="panel-infos">
+				    <th:block layout:fragment="infos"></th:block>
+				</div>
+				
+				<div class="panel-actions">
+				    <th:block layout:fragment="actions"></th:block>
+				</div>
+				
+				<div class="panel-bottom">
+				    <th:block layout:fragment="bottom"></th:block>
+				</div>
+
+            </th:block>
+	        </div>
+	
+	        <div class="panel-footer">
+	        	<th:block layout:fragment="footer"></th:block>
+	        </div>
+	
+	    </div>
+	</th:block>
+
 
 </body>
 </html>
